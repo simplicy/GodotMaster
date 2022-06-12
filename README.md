@@ -18,7 +18,7 @@ For each install below, make sure you are installing your games and the godot fo
 ## Ports Install (Easy)
 If you want to access your godot games through the ports system, simply drag and drop this ```godot/``` folder into your ```{ROMSDIR}/ports/``` folder. 
 ### Ports - Install Games
-In the ```godot/``` folder, copy your ```.pck/.zip``` Godot games into the ```games/``` folder. Once booted into your device, navigate to the godot folder in the ports system, open the ```tools/``` folder and run the ```Scan_Games``` script. This will generate launcher files for all your godot games. Emulationstation will restart then you should now see all your games in the Godot folder. Start any of them to begin playing Godot games!
+In the ```godot/``` folder, copy your ```.pck/.zip``` Godot games into the ```games/``` folder. Once booted into your device, navigate to the godot folder in the ports system, open the ```tools/``` folder and run the ```_Scan_Games``` script. This will generate launcher files for all your godot games. Emulationstation will restart then you should now see all your games in the Godot folder. Start any of them to begin playing Godot games!
 ## System install (Intermediate)
 If you want to access your Godot games like a system add the following to your ```es_systems.cfg``` file located in ```/etc/emulationstation/``` on your ```root``` partition. Paste the snippet just below the ```<systemList>``` tag at the top of the file. Make sure to change ```{ROMSDIR}``` to the correct name where your roms are accessed. 
 ```
