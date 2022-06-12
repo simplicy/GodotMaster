@@ -10,8 +10,6 @@ This is a collection of tools that enable you to play godot games on your retro 
 (Disclaimer: Currently this has only been tested on RG351P/M and RG351MP devices, until I can get my hands on other retro-handhelds, I cannot verify that this will work 100% on other handhelds without some tinkering.)
 
 # Pre-requisites
-At the moment, I am having these scripts piggyback off of portmasters controller setup. This is not ideal but games made in Godot give the developer full control of the controller setup for the player. This means that some games may have working controls while others will not, even if it seems like they should. I have tested about 30 games with varying results. I am working on getting the parts we can control more consistent across devices. Currently I can only test on the RG351P/M and RG351MP. 
-
 If you do not have it installed already, go to the [PortMaster](https://github.com/christianhaitian/PortMaster) github and install it on your device. If you have the most recent version of ArkOS you should already have this installed. So you can skip this step. 
 # Install
 For each install below, make sure you are installing your games and the godot folder on the same sd card. If you install your games on your second sd card (```/roms2/```), install this godot package here. If you install your games on your primary sd card (```/roms/```), install the godot package there. If you're on AmberELEC\351ELEC you will need to put ```/storage/roms/``` or ```/storage/roms2/```. I will reference it as ```{ROMSDIR}``` for the rest of the install.
