@@ -1,0 +1,58 @@
+#!/bin/bash
+
+if [ -d "/opt/system/Tools/PortMaster/" ]; then
+  controlfolder="/opt/system/Tools/PortMaster"
+elif [ -d "/opt/tools/PortMaster/" ]; then
+  controlfolder="/opt/tools/PortMaster"
+else
+  controlfolder="/roms/ports/PortMaster"
+fi
+
+source $controlfolder/control.txt
+
+get_controls
+
+GAMEDIR="/$directory/ports/Godot"
+
+if [[ $LOWRES == 'Y' ]]; then
+  swidth="320"
+  sheight="480"
+  sscale="1"
+elif [[ "$(cat /sys/firmware/devicetree/base/model)" == "Anbernic RG552" ]] || [[ -e "/dev/input/by-path/platform-singleadc-joypad-event-joystick" ]]; then
+  swidth="1920"
+  sheight="1080"
+  sscale="3"
+elif [[ -e "/dev/input/by-path/platform-odroidgo3-joypad-event-joystick" ]]; then
+  swidth="854"
+  sheight="480"
+  sscale="3"
+else
+  swidth="640"
+  sheight="480"
+  sscale="3"
+fi
+
+RES="${swidth}x${sheight}"
+if [ -z $1 ]; then
+  game="${GAMEDIR}/games/${GAMENAME}"
+else    
+  game="${1}"    
+fi
+
+export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
+
+# Uncomment one of the below lines to change the version of FRT being used
+# make sure only one is uncommented, or you can run into issues. By default FRT 2 for Godot 3.4.4 is used.
+
+# Uncomment the below line to enable FRT 2 for 32bit Godot 2.1.6 
+#$GAMEDIR/bin/frt_200_216_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
+
+# Uncomment the below line to enable FRT 2 for 64bit Godot 2.1.6 
+#$GAMEDIR/bin/frt_200_216_arm64v8.bin -f --resolution $RES --main-pack "$PATH"
+
+# Uncomment the below line to enable FRT 2 for 32bit Godot 3.4.4 
+#$GAMEDIR/bin/frt_200_344_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
+
+#This is the default option using FRT 2 for 64bit Godot 3.4.4
+$GAMEDIR/bin/frt_200_344_arm64v8.bin -f --resolution $RES --main-pack $game
+
