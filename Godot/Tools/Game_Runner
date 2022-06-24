@@ -13,7 +13,6 @@ source $controlfolder/control.txt
 get_controls
 
 GAMEDIR="/$directory/ports/Godot"
-
 if [[ $LOWRES == 'Y' ]]; then
   swidth="320"
   sheight="480"
@@ -33,26 +32,31 @@ else
 fi
 
 RES="${swidth}x${sheight}"
+
 if [ -z $1 ]; then
   game="${GAMEDIR}/games/${GAMENAME}"
 else    
   game="${1}"    
 fi
-
-export SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig"
-
+ 
+$ESUDO chmod 666 /dev/uinput
+cd $GAMEDIR/bin/
 # Uncomment one of the below lines to change the version of FRT being used
 # make sure only one is uncommented, or you can run into issues. By default FRT 2 for Godot 3.4.4 is used.
-
+FRT="frt_200_344_arm32v7.bin"
 # Uncomment the below line to enable FRT 2 for 32bit Godot 2.1.6 
-#$GAMEDIR/bin/frt_200_216_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
-
+#frt_200_216_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
+#frt_200_344_arm64v8.bin
 # Uncomment the below line to enable FRT 2 for 64bit Godot 2.1.6 
-#$GAMEDIR/bin/frt_200_216_arm64v8.bin -f --resolution $RES --main-pack "$PATH"
+#frt_200_216_arm64v8.bin -f --resolution $RES --main-pack "$PATH"
 
 # Uncomment the below line to enable FRT 2 for 32bit Godot 3.4.4 
-#$GAMEDIR/bin/frt_200_344_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
-
+#frt_200_344_arm32v7.bin -f --resolution $RES --main-pack "$PATH"
+$GPTOKEYB $FRT -c "$GAMEDIR/bin/godot.gptk" &
 #This is the default option using FRT 2 for 64bit Godot 3.4.4
-$GAMEDIR/bin/frt_200_344_arm64v8.bin -f --resolution $RES --main-pack $game
-
+#$ESUDO ./oga_controls ./$FRT $param_device &
+SDL_GAMECONTROLLERCONFIG="$sdl_controllerconfig" &
+./$FRT --video-driver GLES3 -f --resolution $RES --main-pack $game 2>&1 | tee $GAMEDIR/log.txt
+$ESUDO kill -9 $(pidof gptokeyb)
+$ESUDO systemctl restart oga_events &
+printf "\033c" >> /dev/tty1
